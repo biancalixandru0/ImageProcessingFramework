@@ -1,0 +1,260 @@
+﻿<Window x:Class="ImageProcessingFramework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageProcessingFramework.ViewModel"
+        mc:Ignorable="d"
+        MouseMove="WindowMouseMove"
+        Title="Image Processing" 
+        Height="685" 
+        Width="1024"
+        Left="125" 
+        Top="0"
+        Icon="Images\Icon2.png">
+    <Window.DataContext>
+        <local:HomeCommands/>
+    </Window.DataContext>
+    <Grid Background="#E5F9E0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Background="#2F9C95"
+              Grid.Row="0" 
+              Grid.ColumnSpan="2">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+
+            <MenuItem Header="File" 
+                      Background="#A3F7B5">
+                <MenuItem Header="Load grayscale image" 
+                          Command="{Binding Path=AddGrayImage}"
+                          CommandParameter="{Binding ElementName=SliderZoom}"/>
+                <MenuItem Header="Load color image" 
+                          Command="{Binding Path=AddColorImage}"
+                          CommandParameter="{Binding ElementName=SliderZoom}"/>
+                <Separator/>
+                <MenuItem Header="Save processed image" 
+                          Command="{Binding Path=Save}"/>
+                <Separator/>
+                <MenuItem Header="Exit" 
+                          Command="{Binding Path=Exit}"/>
+            </MenuItem>
+
+            <MenuItem Header="Tools" 
+                      Background="#A3F7B5">
+                <MenuItem Header="Magnifier"
+                           Command="{Binding Path=Magnifier}"/>
+                <MenuItem Header="GLevelsRow" 
+                          Command="{Binding Path=RowDisplay}"/>
+                <MenuItem Header="Invert" 
+                          Command="{Binding Path=Invert}"/>
+                <MenuItem Header="Copy" 
+                          Command="{Binding Path=Copy}"/>
+                <MenuItem Header="Transform to gray image"
+                          Command="{Binding Path=ConvertToGrayImage}" />
+            </MenuItem>
+
+            <MenuItem Header="Filters" 
+                      Background="#A3F7B5">
+            </MenuItem>
+            <MenuItem Header="Save as original image" 
+                      Background="#A3F7B5" 
+                      HorizontalAlignment="Right" 
+                      Command="{Binding Path=SaveAsOriginalImage}"/>
+        </Menu>
+
+        <Label Grid.Column="0" 
+               Grid.Row="2"
+               Width="auto" 
+               Height="auto" 
+               Margin="10,10,30,10"
+               BorderBrush="#664147" 
+               BorderThickness="5.0"
+               VerticalContentAlignment="Center" 
+               HorizontalContentAlignment="Center"
+               Name="lbl">
+            <ScrollViewer x:Name="ScrollViewerInitial"
+                          HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto" 
+                          ScrollChanged="ScrollChanged"
+                          >
+                <Canvas 
+                    x:Name="canvasOriginalImage"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="{Binding ElementName=lbl, Path=ActualWidth}"
+                    Height="{Binding ElementName=lbl, Path=ActualHeight}"
+                    MouseLeftButtonUp="DrawRectangle"
+                    MouseLeftButtonDown="DrawLine">
+                    <Image x:Name="initialImage"
+                       Mouse.MouseMove="ImageMouseMove"
+                       MouseLeftButtonDown="MouseLeftPressed"
+                       MouseRightButtonDown="MouseRightPressed"
+                       Source="{Binding InitialImage}">
+                        <Image.LayoutTransform>
+                            <ScaleTransform ScaleX="{Binding ElementName=SliderZoom, Path=Value}" 
+                                        ScaleY="{Binding ElementName=SliderZoom, Path=Value}"/>
+                        </Image.LayoutTransform>
+                    </Image>
+                </Canvas>
+            </ScrollViewer>
+        </Label>
+
+        <Label Grid.Column="1" 
+               Grid.Row="2"
+               Width="auto" 
+               Height="auto" 
+               Margin="10,10,30,10"
+               BorderBrush="#664147" 
+               BorderThickness="5.0"
+               VerticalContentAlignment="Center" 
+               HorizontalContentAlignment="Center">
+            <ScrollViewer x:Name="ScrollViewerProcessed"
+                          HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto" 
+                          ScrollChanged="ScrollChanged"
+                          >
+                <Canvas 
+                    x:Name="canvasProcessedImage"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="{Binding ElementName=lbl, Path=ActualWidth}"
+                    Height="{Binding ElementName=lbl, Path=ActualHeight}"
+                    MouseLeftButtonUp="DrawRectangle">
+                    <Image x:Name="processedImage"
+                       Mouse.MouseMove="ImageMouseMove"
+                       MouseLeftButtonDown="MouseLeftPressed"
+                       Source="{Binding ProcessedImage}">
+                        <Image.LayoutTransform>
+                            <ScaleTransform ScaleX="{Binding ElementName=SliderZoom, Path=Value}" 
+                                        ScaleY="{Binding ElementName=SliderZoom, Path=Value}"/>
+                        </Image.LayoutTransform>
+                    </Image>
+                </Canvas>
+            </ScrollViewer>
+        </Label>
+
+        <Button x:Name="Reset" 
+                Content="Reset"
+                Command="{Binding Path=Reset}" 
+                CommandParameter="{Binding ElementName=SliderZoom}" 
+                Background="#A3F7B5"
+                Grid.Row="3" 
+                Margin="10,26,0,42"
+                Width="80"
+                Height="auto" 
+                HorizontalAlignment="Left"/>
+        <StackPanel Margin="95,30,59.333,28" 
+                    Grid.ColumnSpan="2" 
+                    Grid.Row="3" 
+                    Height="auto">
+            <Slider x:Name="SliderZoom"
+                    Orientation="Horizontal"
+                    Value="1.00" 
+                    Minimum="0.10"
+                    Maximum="10.00" 
+                    Cursor="Hand"
+                    SmallChange="0.10" 
+                    IsSnapToTickEnabled="True"
+                    TickPlacement="BottomRight" 
+                    TickFrequency="0.05"
+                    Height="27" 
+                    Margin="5,0,30.333,0"/>
+        </StackPanel>
+
+        <TextBlock Text="{Binding Value, ElementName=SliderZoom}" 
+                   TextAlignment="Center"
+                   FontSize="15" 
+                   Margin="0,0,27.333,46" 
+                   Height="28" 
+                   VerticalAlignment="Bottom" 
+                   Grid.Column="1" 
+                   Grid.Row="3" 
+                   HorizontalAlignment="Right" 
+                   Width="63"/>
+        <Label Content="x" 
+               FontSize="15"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" 
+               Grid.Column="1" 
+               Margin="0,10,10.5,41" 
+               Grid.Row="3" 
+               HorizontalAlignment="Right" 
+               Width="44"/>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Original Image"
+                   FontSize="15" 
+                   Width="120"
+                   Height="20"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Text="Processed Image"
+                   Width="120"
+                   Height="20"
+                   FontSize="15" 
+                   HorizontalAlignment="Center"/>
+
+        <Grid Grid.Column="0" 
+              Grid.Row="4"
+              Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" 
+                   Grid.Row="1" 
+                   x:Name="xPos" 
+                   FontSize="15" 
+                   HorizontalAlignment="Right"/>
+            <TextBlock Grid.Column="1" 
+                   Grid.Row="0" 
+                   x:Name="yPos" 
+                   FontSize="15" 
+                   HorizontalAlignment="Left"/>
+
+            <TextBlock Grid.Column="2"
+                       Grid.Row="1"
+                       x:Name="grayValue"
+                       FontSize="15"
+                       HorizontalAlignment="Left"/>
+
+            <TextBlock Grid.Column="3"
+                       Grid.Row="1"
+                       x:Name="rValue"
+                       FontSize="15"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="4"
+                       Grid.Row="1"
+                       x:Name="gValue"
+                       FontSize="15"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="5"
+                       Grid.Row="1"
+                       x:Name="bValue"
+                       FontSize="15"
+                       HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Window>

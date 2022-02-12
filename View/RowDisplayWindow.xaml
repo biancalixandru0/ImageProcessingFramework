@@ -1,0 +1,116 @@
+﻿<Window x:Class="ImageProcessingFramework.RowDisplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageProcessingFramework.ViewModel"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="RowDisplayWindow" 
+        MouseMove="RowDisplayUpdate"
+        Closing="RowDisplayClosing"
+        Height="512" 
+        Width="1024"
+        Left="125" 
+        Top="50"
+        ResizeMode="NoResize"
+        Icon="../Images/Icon2.png">
+    <Window.DataContext>
+        <local:RowDisplayCommands/>
+    </Window.DataContext>
+    <Grid Background="#E5F9E0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1"
+               Grid.Column="0">
+            <oxy:PlotView Name="originalImageView"
+                          Width="390"
+                          Height="440"/>
+        </Label>
+        <Label Grid.Row="1"
+               Grid.Column="2">
+            <oxy:PlotView Name="processedImageView"
+                          Width="390"
+                          Height="440"/>
+        </Label>
+
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Original Image"
+                   FontSize="15" 
+                   Width="120"
+                   Height="20"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="2"
+                   Text="Processed Image"
+                   Width="120"
+                   Height="20"
+                   FontSize="15" 
+                   HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Text="Settings"
+                   Width="60"
+                   Height="20"
+                   FontSize="15" 
+                   HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="1" 
+                   Grid.Column="1"
+                   Height="30"
+                   Width="70"
+                   Margin="10,10,138.667,414"
+                   TextAlignment="Center"
+                   Name="xPos"
+                   Text="{Binding Path=Xpos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Grid.Row="1" 
+                   Grid.Column="1"
+                   Width="70"
+                   Height="30"
+                   Margin="139,10,9.667,414"
+                   TextAlignment="Center"
+                   Name="yPos"
+                   Text="{Binding Path=Ypos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Grid.Row="1"
+                     Grid.Column="1"
+                     Name="checkBoxBlue"
+                     Content="Blue Chanel" 
+                     Margin="15,45,103.667,379"
+                     Width="100"
+                     Height="30"
+                     IsChecked="True"
+                     Checked="AddBlueSeries"
+                     Unchecked="RemoveBlueSeries"
+                     Visibility="Hidden"/>
+        <CheckBox Grid.Row="1"
+                     Grid.Column="1"
+                     Name="checkBoxRed"
+                     Content="Red Chanel"
+                     Margin="15,75,103.667,349"
+                     Width="100"
+                     Height="30"
+                     IsChecked="True"
+                     Checked="AddRedSeries"
+                     Unchecked="RemoveRedSeries"
+                     Visibility="Hidden"/>
+        <CheckBox Grid.Row="1"
+                     Grid.Column="1"
+                     Name="checkBoxGreen"
+                     Content="Green Chanel"
+                     Margin="15,105,103.667,319"
+                     Width="100"
+                     Height="30"
+                     IsChecked="True"
+                     Checked="AddGreenSeries"
+                     Unchecked="RemoveGreenSeries"
+                     Visibility="Hidden"/>
+    </Grid>
+</Window>

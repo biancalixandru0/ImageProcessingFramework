@@ -1,0 +1,31 @@
+﻿<Window x:Class="ImageProcessingFramework.View.DialogBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageProcessingFramework.View"
+        mc:Ignorable="d"
+        Title="DialogBox" 
+        x:Name="dialogBoxWindow"
+        Height="auto"
+        Width="300"
+        Icon="../Images/Icon2.png"
+        Left="200"
+        Top="200"
+        ResizeMode="NoResize">
+    <Grid x:Name="mainGrid" Background="#E5F9E0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="OK" 
+                Click="OKButton_Click"
+                Grid.Row="2"
+                Width="50"
+                Height="25"/>
+        </Grid>
+    </Grid>
+</Window>
