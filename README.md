@@ -10,6 +10,7 @@ Pentru a putea clona proiectul local se vor executa următorii pași:
 ```git config --global user.name "name"```
 
 ```git config --global user.email "email_adress_used_for_Github@example.com"```
+
 4. Mergi în calculator în locația în care dorești să clonezi proiectul si rulează comanda:
 
 ```git clone https://github.com/biancalixandru0/ImageProcessingFramework.git```
