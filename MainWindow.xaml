@@ -64,6 +64,8 @@
                           Command="{Binding Path=Copy}"/>
                 <MenuItem Header="Transform to gray image"
                           Command="{Binding Path=ConvertToGrayImage}" />
+                <MenuItem Header="Remove drawn elements"
+                          Command="{Binding Path=RemoveAllElements}"/>
             </MenuItem>
 
             <MenuItem Header="Filters" 

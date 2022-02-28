@@ -11,6 +11,8 @@ using ImageProcessingAlgorithms.Tools;
 using ImageConverter = ImageProcessingFramework.Model.ImageConverter;
 using static ImageProcessingFramework.Model.DataProvider;
 using ImageProcessingFramework.View;
+using ImageProcessingFramework.Model;
+using System.Collections.Generic;
 
 namespace ImageProcessingFramework.ViewModel
 {
@@ -31,6 +33,7 @@ namespace ImageProcessingFramework.ViewModel
         private ICommand m_copyImage;
         private ICommand m_convertToGrayImage;
         private ICommand m_magnifier;
+        private ICommand m_removeAllElements;
         private bool m_isColorImage;
         private bool m_isPressedConvertButton;
 
@@ -266,6 +269,14 @@ namespace ImageProcessingFramework.ViewModel
             MagnifierOn = true;
         }
 
+        public void RemoveAllDrawnElements(object parameter)
+        {
+            UiHelper.RemoveAllDrawnLines(InitialCanvas, ProcessedCanvas, VectorOfLines);
+            UiHelper.RemoveAllDrawnRectangles(InitialCanvas, ProcessedCanvas, VectorOfRectangles);
+            UiHelper.RemoveAllDrawnEllipses(InitialCanvas, ProcessedCanvas, VectorOfEllipses);
+            UiHelper.RemoveAllDrawnPolygons(InitialCanvas, ProcessedCanvas, VectorOfPolygons);
+        }
+
         public ICommand AddColorImage
         {
             get
@@ -354,6 +365,16 @@ namespace ImageProcessingFramework.ViewModel
                 if (m_convertToGrayImage == null)
                     m_convertToGrayImage = new RelayCommand(ConvertToGray);
                 return m_convertToGrayImage;
+            }
+        }
+
+        public ICommand RemoveAllElements
+        {
+            get
+            {
+                if (m_removeAllElements == null)
+                    m_removeAllElements = new RelayCommand(RemoveAllDrawnElements);
+                return m_removeAllElements;
             }
         }
 

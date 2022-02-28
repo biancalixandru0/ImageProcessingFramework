@@ -4,6 +4,8 @@ using System.Windows.Input;
 using PointCollection = System.Windows.Media.PointCollection;
 using static ImageProcessingFramework.Model.DataProvider;
 using static ImageProcessingFramework.Model.UiHelper;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace ImageProcessingFramework
 {
@@ -14,6 +16,10 @@ namespace ImageProcessingFramework
             InitializeComponent();
             MousePosition = new Point(0, 0);
             VectorOfMousePosition = new PointCollection();
+            VectorOfLines = new Collection<Line>();
+            VectorOfRectangles = new Collection<Rectangle>();
+            VectorOfEllipses = new Collection<Ellipse>();
+            VectorOfPolygons = new Collection<Polygon>();
 
             InitialImageUi = initialImage;
             ProcessedImageUi = processedImage;

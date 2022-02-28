@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using static ImageProcessingFramework.Model.DataProvider;
 using System.Windows;
 using Ellipse = System.Windows.Shapes.Ellipse;
+using System.Collections.ObjectModel;
 
 namespace ImageProcessingFramework.Model
 {
@@ -100,6 +101,46 @@ namespace ImageProcessingFramework.Model
         {
             initialCanvas.Children.Remove(initialElement);
             processedCanvas.Children.Remove(processedElement);
+        }
+
+        public static void RemoveAllDrawnLines(Canvas initialCanvas, Canvas processedCanvas, Collection<Line> vectorOfLines)
+        {
+            foreach (Line line in vectorOfLines)
+            {
+                initialCanvas.Children.Remove(line);
+                processedCanvas.Children.Remove(line);
+            }
+            vectorOfLines.Clear();
+        }
+
+        public static void RemoveAllDrawnRectangles(Canvas initialCanvas, Canvas processedCanvas, Collection<Rectangle> vectorOfRectangles)
+        {
+            foreach (Rectangle rectangle in vectorOfRectangles)
+            {
+                initialCanvas.Children.Remove(rectangle);
+                processedCanvas.Children.Remove(rectangle);
+            }
+            vectorOfRectangles.Clear();
+        }
+
+        public static void RemoveAllDrawnEllipses(Canvas initialCanvas, Canvas processedCanvas, Collection<Ellipse> vectorOfEllipses)
+        {
+            foreach (Ellipse ellipse in vectorOfEllipses)
+            {
+                initialCanvas.Children.Remove(ellipse);
+                processedCanvas.Children.Remove(ellipse);
+            }
+            vectorOfEllipses.Clear();
+        }
+
+        public static void RemoveAllDrawnPolygons(Canvas initialCanvas, Canvas processedCanvas, Collection<Polygon> vectorOfPolygons)
+        {
+            foreach (Polygon polygon in vectorOfPolygons)
+            {
+                initialCanvas.Children.Remove(polygon);
+                processedCanvas.Children.Remove(polygon);
+            }
+            vectorOfPolygons.Clear();
         }
     }
 }
