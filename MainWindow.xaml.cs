@@ -68,16 +68,16 @@ namespace ImageProcessingFramework
         private void MouseLeftPressed(object sender, MouseButtonEventArgs e)
         {
             string nameImage = (sender as Image).Name;
-            if (string.Compare(nameImage, initialImage.Name) == 0)
-                MousePosition = e.GetPosition(initialImage);
-            else
-                MousePosition = e.GetPosition(processedImage);
-
             if (LastPosition != MousePosition)
             {
                 VectorOfMousePosition.Add(MousePosition);
                 LastPosition = MousePosition;
             }
+
+            if (string.Compare(nameImage, initialImage.Name) == 0)
+                MousePosition = e.GetPosition(initialImage);
+            else
+                MousePosition = e.GetPosition(processedImage);
         }
 
         private void MouseRightPressed(object sender, MouseButtonEventArgs e)
