@@ -24,18 +24,35 @@ namespace ImageProcessingFramework.Model
         public static Polygon InitialPolygon { get; set; }
         public static Polygon ProcessedPolygon { get; set; }
 
-        public static void ResizeCanvas(Canvas canvas, double scaleValue)
+        public static void ResizeCanvas(Canvas canvas, double scaleValue, bool initialImage = true)
         {
-            if (GrayInitialImage != null)
+            if (initialImage == true)
             {
-                canvas.Height = GrayInitialImage.Height * scaleValue;
-                canvas.Width = GrayInitialImage.Width * scaleValue;
-            }
+                if (GrayInitialImage != null)
+                {
+                    canvas.Height = GrayInitialImage.Height * scaleValue;
+                    canvas.Width = GrayInitialImage.Width * scaleValue;
+                }
 
-            if (ColorInitialImage != null)
+                if (ColorInitialImage != null)
+                {
+                    canvas.Height = ColorInitialImage.Height * scaleValue;
+                    canvas.Width = ColorInitialImage.Width * scaleValue;
+                }
+            }
+            else
             {
-                canvas.Height = ColorInitialImage.Height * scaleValue;
-                canvas.Width = ColorInitialImage.Width * scaleValue;
+                if (GrayProcessedImage != null)
+                {
+                    canvas.Height = GrayProcessedImage.Height * scaleValue;
+                    canvas.Width = GrayProcessedImage.Width * scaleValue;
+                }
+
+                if (ColorProcessedImage != null)
+                {
+                    canvas.Height = ColorProcessedImage.Height * scaleValue;
+                    canvas.Width = ColorProcessedImage.Width * scaleValue;
+                }
             }
         }
 

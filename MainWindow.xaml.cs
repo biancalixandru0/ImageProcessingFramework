@@ -115,7 +115,7 @@ namespace ImageProcessingFramework
         private void WindowMouseMove(object sender, MouseEventArgs e)
         {
             ResizeCanvas(canvasOriginalImage, SliderZoom.Value);
-            ResizeCanvas(canvasProcessedImage, SliderZoom.Value);
+            ResizeCanvas(canvasProcessedImage, SliderZoom.Value, false);
 
             DrawRectangle(sender, e as MouseButtonEventArgs);
             DrawLine(sender, e as MouseButtonEventArgs);
