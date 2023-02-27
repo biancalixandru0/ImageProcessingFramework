@@ -1,0 +1,67 @@
+﻿<Window x:Class="Framework.View.SliderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Framework.ViewModel"
+        mc:Ignorable="d"
+        Title="Slider"
+        Closing="WindowClosing"
+        Height="125"
+        Width="600"
+        ResizeMode="CanMinimize"
+        Topmost="True"
+        Icon="../Images/Icon.png">
+
+    <Window.DataContext>
+        <local:SliderVM/>
+    </Window.DataContext>
+
+    <Grid Background="{Binding Path=Theme.BackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="20,0,20,0">
+            <TextBlock Text="{Binding Path=Description}"
+                       Grid.Column="1" 
+                       Grid.Row="1" 
+                       Foreground="{Binding Path=Theme.TextForeground}"
+                       TextAlignment="Left"
+                       FontSize="15"
+                       Height="25"
+                       Width="560"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"/>
+
+            <Grid Height="50">
+                <Slider x:Name="slider"
+                        Orientation="Horizontal"
+                        Foreground="{Binding Path=Theme.TextForeground}"
+                        Minimum="{Binding Path=MinimumValue}"
+                        Maximum="{Binding Path=MaximumValue}"
+                        Value="{Binding Path=Value}"
+                        SmallChange="{Binding Path=Frequency}"
+                        TickFrequency="{Binding Path=Frequency}"
+                        TickPlacement="BottomRight" 
+                        IsSnapToTickEnabled="True"
+                        Cursor="Hand"
+                        Margin="0,0,50,0"
+                        Height="35"
+                        Width="auto"/>
+                <TextBlock Text="{Binding Value, ElementName=slider}"
+                           Foreground="{Binding Path=Theme.TextForeground}"
+                           TextAlignment="Center"
+                           FontSize="15"
+                           Height="35"
+                           Width="35"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,0,10"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

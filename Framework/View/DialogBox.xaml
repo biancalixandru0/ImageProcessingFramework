@@ -1,0 +1,63 @@
+﻿<Window x:Class="Framework.View.DialogBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Framework.ViewModel"
+        mc:Ignorable="d"
+        Title="Dialog box"
+        MinHeight="100"
+        Height="{Binding Path=Height, Mode=TwoWay}"
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Topmost="True"
+        Icon="../Images/Icon.png">
+
+    <Window.DataContext>
+        <local:DialogBoxVM/>
+    </Window.DataContext>
+
+    <Grid Background="{Binding Path=Theme.BackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <ItemsControl Grid.Row="1"
+                      Grid.Column="1"
+                      ItemsSource="{Binding Path=Parameters}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=ParamText}"
+                                   Height="{Binding Path=Height}"
+                                   Foreground="{Binding Path=Foreground}"/>
+
+                        <TextBox Text="{Binding Path=InputText}"
+                                 Height="{Binding Path=Height}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Content="Done"
+                Height="25"
+                Width="50"
+                BorderThickness="2"
+                Foreground="{Binding Path=Theme.ButtonForegroundColor}"
+                Background="{Binding Path=Theme.ButtonBackgroundColor}"
+                BorderBrush="{Binding Path=Theme.ButtonBorderBrush}"
+                Command="{Binding Path=CloseCommand}"/>
+    </Grid>
+</Window>
