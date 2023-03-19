@@ -16,6 +16,8 @@ using static Framework.Converters.ImageConverter;
 using Algorithms.Sections;
 using Algorithms.Tools;
 using Algorithms.Utilities;
+using System.Collections.Generic;
+using System;
 
 namespace Framework.ViewModel
 {
@@ -667,7 +669,171 @@ namespace Framework.ViewModel
 
         #endregion
 
+        #region Mirror image vertically
+
+        private ICommand _mirrorImageVertically;
+
+        public ICommand MirrorImageVeritcally
+
+        {
+            get
+            {
+                if (_mirrorImageVertically == null)
+                    _mirrorImageVertically = new RelayCommand(MirrorImageVeritcallyMethod);
+
+                return _mirrorImageVertically;
+            }
+        }
+
+        private void MirrorImageVeritcallyMethod(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show("Please load an image!");
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.MirorImage(GrayInitialImage);
+                ProcessedImage = Convert(GrayProcessedImage);
+            }
+            else if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Tools.MirorImage(ColorInitialImage);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
         #endregion
+
+        #region Binarizare
+
+        private ICommand _binarizareImage;
+
+        public ICommand BinarizareImage
+        {
+            get
+            {
+                if (_binarizareImage == null)
+                    _binarizareImage = new RelayCommand(BinarizareImageMethod);
+
+                return _binarizareImage;
+            }
+        }
+
+        private void BinarizareImageMethod(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show("Please load an image!");
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            List<string> paramass = new List<string>();
+            paramass.Add("Threshold: ");
+
+            DialogBox db = new DialogBox(_mainVM, paramass);
+            db.ShowDialog();
+
+            List<double> results = db.GetValues();
+
+            if(results != null)
+            {
+                int threshold = (int)results[0];
+
+                if (GrayInitialImage != null)
+                {
+                    GrayProcessedImage = Tools.BinarizareImagine(GrayInitialImage,threshold);
+                    ProcessedImage = Convert(GrayProcessedImage);
+                }
+                else if (ColorInitialImage != null)
+                {
+                    ColorProcessedImage = Tools.BinarizareImagine(ColorInitialImage,threshold);
+                    ProcessedImage = Convert(ColorProcessedImage);
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region Crop
+
+        private ICommand _crop;
+
+        public ICommand Crop
+        {
+            get
+            {
+                if (_crop == null)
+                    _crop = new RelayCommand(CropMethod);
+
+                return _crop;
+            }
+        }
+
+        private void CropMethod(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show("Please load an image!");
+                return;
+            }
+
+            object[] canvases = (object[])parameter;
+
+            ClearProcessedCanvas(canvases[1]);
+
+            int nrOfMousePosition = VectorOfMousePosition.Count;
+
+            if (nrOfMousePosition >= 2)
+            {
+                Point p1 = VectorOfMousePosition[nrOfMousePosition - 2];
+                Point p2 = VectorOfMousePosition[nrOfMousePosition - 1];
+
+                int topX = (int)System.Math.Min(p1.X, p2.X);
+                int topY = (int)System.Math.Min(p1.Y, p2.Y);
+
+                Tuple<int, int> top = new Tuple<int, int>(topX, topY);
+
+                int bottomX = (int)System.Math.Max(p1.X, p2.X);
+                int bottomY = (int)System.Math.Max(p1.Y, p2.Y);
+
+                Tuple<int, int> bottom = new Tuple<int, int>(bottomX, bottomY);
+
+                DrawRectangle((Canvas)canvases[0],
+                    new Point(topX, topY),
+                    new Point(bottomX, bottomY),
+                    2,
+                    Brushes.Blue,
+                    ScaleValue);
+
+
+                if (GrayInitialImage != null)
+                {
+                    GrayProcessedImage = Tools.Crop(GrayInitialImage,top,bottom);
+                    ProcessedImage = Convert(GrayProcessedImage);
+                }
+                else if (ColorInitialImage != null)
+                {
+                    ColorProcessedImage = Tools.Crop(ColorInitialImage, top, bottom);
+                    ProcessedImage = Convert(ColorProcessedImage);
+                }
+            }
+
+        }
+
+        #endregion
+
+
+        #endregion
+
+
 
         #region Pointwise operations
         #endregion

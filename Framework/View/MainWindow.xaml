@@ -177,6 +177,31 @@
                               Command="{Binding Path=MenuCommands.RotateImageAntiClockwiseCommand}"
                               CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Mirror Image"
+                           Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.MirrorImageVeritcally}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}">
+
+                </MenuItem>
+
+                <MenuItem Header="Binarizare"
+                           Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.BinarizareImage}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}">
+
+                </MenuItem>
+
+                <MenuItem Header="Crop Image"                          
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.Crop}">
+                    <MenuItem.CommandParameter>
+                        <MultiBinding Converter="{StaticResource arrayMultiValueConverter}">
+                            <Binding ElementName="canvasOriginalImage"/>
+                            <Binding ElementName="canvasProcessedImage"/>
+                        </MultiBinding>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="Pointwise operations"
