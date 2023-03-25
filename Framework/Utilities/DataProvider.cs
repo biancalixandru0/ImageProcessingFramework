@@ -12,6 +12,7 @@ namespace Framework.Utilities
         public static Image<Gray, byte> GrayProcessedImage { get; set; }
         public static Image<Bgr, byte> ColorInitialImage { get; set; }
         public static Image<Bgr, byte> ColorProcessedImage { get; set; }
+        public static Image<Hsv, byte> HSVColorProcessedImage { get; set; }
 
         public static Point MousePosition { get; set; }
         public static Point LastPosition { get; set; }

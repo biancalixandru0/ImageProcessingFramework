@@ -12,11 +12,13 @@ using static Framework.Utilities.DataProvider;
 using static Framework.Utilities.FileHelper;
 using static Framework.Utilities.DrawingHelper;
 using static Framework.Converters.ImageConverter;
+
+using Algorithms.Sections;
 using Algorithms.Tools;
 using Algorithms.Utilities;
 using System.Collections.Generic;
 using System;
-using Algorithms.Sections;
+using System.Diagnostics.Contracts;
 
 namespace Framework.ViewModel
 {
@@ -113,7 +115,7 @@ namespace Framework.ViewModel
 
         private void SaveProcessedImage(object parameter)
         {
-            if (GrayProcessedImage == null && ColorProcessedImage == null)
+            if (GrayProcessedImage == null && ColorProcessedImage == null && HSVColorProcessedImage == null)
             {
                 MessageBox.Show("If you want to save your processed image, " +
                     "please load and process an image first!");
@@ -741,18 +743,18 @@ namespace Framework.ViewModel
 
             List<double> results = db.GetValues();
 
-            if(results != null)
+            if (results != null)
             {
                 int threshold = (int)results[0];
 
                 if (GrayInitialImage != null)
                 {
-                    GrayProcessedImage = Tools.BinarizareImagine(GrayInitialImage,threshold);
+                    GrayProcessedImage = Tools.BinarizareImagine(GrayInitialImage, threshold);
                     ProcessedImage = Convert(GrayProcessedImage);
                 }
                 else if (ColorInitialImage != null)
                 {
-                    ColorProcessedImage = Tools.BinarizareImagine(ColorInitialImage,threshold);
+                    ColorProcessedImage = Tools.BinarizareImagine(ColorInitialImage, threshold);
                     ProcessedImage = Convert(ColorProcessedImage);
                 }
             }
@@ -815,7 +817,7 @@ namespace Framework.ViewModel
 
                 if (GrayInitialImage != null)
                 {
-                    GrayProcessedImage = Tools.Crop(GrayInitialImage,top,bottom);
+                    GrayProcessedImage = Tools.Crop(GrayInitialImage, top, bottom);
                     ProcessedImage = Convert(GrayProcessedImage);
                 }
                 else if (ColorInitialImage != null)
@@ -836,7 +838,7 @@ namespace Framework.ViewModel
 
         #region Pointwise operations
 
-        #region Binarizare
+        #region Color Contrast Stretching
 
         private ICommand _colorContrastStretching;
 
@@ -855,30 +857,42 @@ namespace Framework.ViewModel
         {
             if (InitialImage == null)
             {
-                MessageBox.Show("Please load an imageT!");
+                MessageBox.Show("Please load an image!");
                 return;
             }
 
             ClearProcessedCanvas(parameter);
 
-            List<string> paramass = new List<string>();
-            paramass.Add("Threshold: ");
-
-            DialogBox db = new DialogBox(_mainVM, paramass);
-            db.ShowDialog();
-
-            List<double> results = db.GetValues();
-
-            if (results != null)
-            {
-                int threshold = (int)results[0];
-
             if (ColorInitialImage != null)
-                {
-                    ColorProcessedImage = PointwiseOperations.ColorContrastStretchingImg(ColorInitialImage);
-                    ProcessedImage = Convert(ColorProcessedImage);
-                }
+            {
+                HSVColorProcessedImage = PointwiseOperations.ColorContrastStretching(ColorInitialImage);
+                ProcessedImage = Convert(HSVColorProcessedImage);
             }
+
+            //List<string> paramass = new List<string>();
+            //paramass.Add("Threshold: ");
+
+            //DialogBox db = new DialogBox(_mainVM, paramass);
+            //db.ShowDialog();
+
+            //List<double> results = db.GetValues();
+
+            //if (results != null)
+            //{
+            //    int threshold = (int)results[0];
+
+            //    //if (GrayInitialImage != null)
+            //    //{
+            //    //    GrayProcessedImage = PointwiseOperations.ColorContrastStretching(GrayInitialImage);
+            //    //    ProcessedImage = Convert(GrayProcessedImage);
+            //    //}
+            //    //else
+            //    if (ColorInitialImage != null)
+            //    {
+            //        HSVColorProcessedImage = PointwiseOperations.ColorContrastStretching(ColorInitialImage);
+            //        ProcessedImage = Convert(ColorProcessedImage);
+            //    }
+            //}
 
         }
 
