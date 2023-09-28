@@ -1,0 +1,43 @@
+﻿<Window x:Class="Framework.View.GraphWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Framework.ViewModel"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="Graph" 
+        Height="500" 
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Topmost="True"
+        Icon="../Images/Icon.png">
+
+    <Window.DataContext>
+        <local:GraphVM/>
+    </Window.DataContext>
+
+    <Grid Background="{Binding Path=Theme.BackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1"
+               Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+            <oxy:PlotView Model="{Binding Path=Plot}"
+                          Width="430"
+                          Height="430"/>
+        </Label>
+    </Grid>
+</Window>
